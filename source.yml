@@ -1,0 +1,43 @@
+# This code is licensed from CircleCI to the user under the MIT license.
+# See here for details: https://circleci.com/developer/orbs/licensing
+version: 2.1
+description: |
+    Orb allows CircleCI users to integrate Sofy.ai into their ci/cd pipeline.
+display:
+    home_url: https://sofy.ai/
+    source_url: https://github.com/SOFYDEVELOPER/sofy-app-upload-circleci-orb
+commands:
+    connect_sofy:
+        description: |
+            Uploads your build directly to Sofy from CircleCi for seamless testing on both platforms
+        parameters:
+            build_path:
+                default: /home/circleci/project/app.apk 
+                description: path to your project build
+                type: string
+            subscription_key:
+                description: Your Sofy API key (found in sofy account settings)
+                type: string
+            application_guid:
+                description: Unique identifier for the application (Optional)
+                type: string
+            certificate_name:
+                description: Your Application certificate name (optional) 
+                type: string
+        steps:
+            - run:
+                command: |
+                    connect() {
+                        curl --location --request POST 'https://public.sofy.ai/parser-microservice/build-upload' \
+                      --header "SubscriptionKey: ${SUBS_KEY}" \
+                      --form "applicationFile=@"${BUILD_PATH}"" \
+                      --form "ApplicationGUID= ${APPLICATION_GUID}" \
+                      --form "CertificateName= ${CERTIFICATE_NAME}"
+                    }
+                    connect
+                environment:
+                    BUILD_PATH: <<parameters.build_path>>
+                    SUBS_KEY: <<parameters.subscription_key>>
+                    APPLICATION_GUID: <<parameters.application_guid>>
+                    CERTIFICATE_NAME: <<parameters.certificate_name>>
+                name: Send Build to API
