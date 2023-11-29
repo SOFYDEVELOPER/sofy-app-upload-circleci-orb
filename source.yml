@@ -19,9 +19,11 @@ commands:
                 description: Your Sofy API key (found in sofy account settings)
                 type: string
             application_guid:
+                default: ""
                 description: Unique identifier for the application (Optional)
                 type: string
             certificate_name:
+                default: ""
                 description: Your Application certificate name (optional) 
                 type: string
         steps:
