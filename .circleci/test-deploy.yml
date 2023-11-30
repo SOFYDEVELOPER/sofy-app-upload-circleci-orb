@@ -28,7 +28,9 @@ jobs:
     steps:
       - checkout
       # Run your orb's commands to validate them.
-      - <orb-name>/greet
+      - <orb-name>/connect_sofy:
+        subscription_key: "C44C6F2C-1730-4943-B2D4-FFA01E96C09B"
+        build_path: "appguid.apk"
 workflows:
   test-deploy:
     jobs:
